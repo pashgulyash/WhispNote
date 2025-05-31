@@ -18,5 +18,14 @@ class MainActivity : AppCompatActivity() {
         binding.btnAddNote.setOnClickListener {
             startActivity(Intent(this, NoteEditorActivity::class.java))
         }
+
+        override fun onResume() {
+    super.onResume()
+    val notes = dbHelper.getAllNotes()
+    if (notes.isNotEmpty()) {
+        binding.emptyState.visibility = View.GONE
+        // Здесь будет логика отображения списка
+    } else {
+        binding.emptyState.visibility = View.VISIBLE
     }
 }
