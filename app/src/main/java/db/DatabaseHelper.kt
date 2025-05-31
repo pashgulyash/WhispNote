@@ -7,7 +7,37 @@ import android.database.sqlite.SQLiteOpenHelper
 import com.pashgulyash.whispnote.model.Note
 
 class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, "notes.db", null, 1) {
+    
+fun addNote(title: String, content: String): Long {
+    val db = writableDatabase
+    val values = ContentValues().apply {
+        put("title", title)
+        put("content", content)
+    }
+    return db.insert("notes", null, values)
+}
 
+fun getAllNotes(): List<Note> {
+    val notes = mutableListOf<Note>()
+    val db = readableDatabase
+    val cursor = db.query(
+        "notes",
+        arrayOf("id", "title", "content", "created_at"),
+        null, null, null, null,
+        "created_at DESC"
+    )
+    
+    while (cursor.moveToNext()) {
+        notes.add(Note(
+            id = cursor.getLong(0),
+            title = cursor.getString(1),
+            content = cursor.getString(2),
+            createdAt = cursor.getString(3)
+        )
+    }
+    cursor.close()
+    return notes
+                  }
     override fun onCreate(db: SQLiteDatabase) {
         db.execSQL("""
             CREATE TABLE notes (
