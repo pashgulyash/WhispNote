@@ -45,7 +45,6 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, "notes.db", n
                     title = it.getString(1),
                     content = it.getString(2),
                     createdAt = it.getString(3)
-                )
             }
         }
         return notes
