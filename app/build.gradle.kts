@@ -20,6 +20,22 @@ android {
             isMinifyEnabled = false
         }
     }
+
+    // ✅ Совместимость с Java 17
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+    }
+
+    // ✅ Совместимость Kotlin с Java 17
+    kotlinOptions {
+        jvmTarget = "17"
+    }
+}
+
+// ✅ Обеспечивает совпадение JVM у Kotlin и Java
+kotlin {
+    jvmToolchain(17)
 }
 
 dependencies {
