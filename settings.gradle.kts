@@ -1,10 +1,9 @@
-rootProject.name = "WhispNote"
-include(":app")
-
 pluginManagement {
     repositories {
-        google()
         gradlePluginPortal()
+        google()
         mavenCentral()
     }
 }
+rootProject.name = "WhispNote"
+include(":app")
