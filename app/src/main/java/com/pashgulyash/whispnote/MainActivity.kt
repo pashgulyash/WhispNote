@@ -4,27 +4,21 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.pashgulyash.whispnote.adapter.NoteAdapter
 import com.pashgulyash.whispnote.databinding.ActivityMainBinding
-import com.pashgulyash.whispnote.db.DatabaseHelper
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
-    private lateinit var dbHelper: DatabaseHelper
-    private lateinit var adapter: NoteAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        dbHelper = DatabaseHelper(this)
-        setupRecyclerView()
-        
         binding.btnAddNote.setOnClickListener {
             startActivity(Intent(this, NoteEditorActivity::class.java))
         }
     }
+}
 
     private fun setupRecyclerView() {
         adapter = NoteAdapter(emptyList()) { note ->
