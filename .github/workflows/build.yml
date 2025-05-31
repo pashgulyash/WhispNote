@@ -44,7 +44,7 @@ jobs:
 
       # 6. Build APK
       - name: Build debug APK
-        run: ./gradlew assembleDebug
+        run: ./gradlew check --stacktrace
 
       # 7. Upload artifact
       - name: Upload APK
