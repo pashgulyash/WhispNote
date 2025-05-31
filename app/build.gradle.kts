@@ -43,7 +43,7 @@ kotlin {
 dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib:1.8.20")
     implementation("androidx.appcompat:appcompat:1.6.1")
-    implementation("androidx.core:core-ktx:1.9.0")
+    implementation("androidx.core:core-ktx:1.12.0")
     
     // Новые зависимости
     implementation("androidx.recyclerview:recyclerview:1.3.2")
