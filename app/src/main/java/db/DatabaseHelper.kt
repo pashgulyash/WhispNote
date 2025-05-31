@@ -15,7 +15,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, "notes.db", n
                 title TEXT,
                 content TEXT,
                 created_at TEXT DEFAULT (datetime('now'))
-        """)
+        """.trimIndent())
     }
 
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
@@ -37,15 +37,16 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, "notes.db", n
         val db = readableDatabase
         val cursor = db.rawQuery("SELECT * FROM notes ORDER BY created_at DESC", null)
         
-        while (cursor.moveToNext()) {
-            notes.add(Note(
-                id = cursor.getLong(0),
-                title = cursor.getString(1),
-                content = cursor.getString(2),
-                createdAt = cursor.getString(3)
-            )
+        cursor.use {
+            while (it.moveToNext()) {
+                notes.add(Note(
+                    id = it.getLong(0),
+                    title = it.getString(1),
+                    content = it.getString(2),
+                    createdAt = it.getString(3)
+                )
+            }
         }
-        cursor.close()
         return notes
     }
-                      }
+                          }
