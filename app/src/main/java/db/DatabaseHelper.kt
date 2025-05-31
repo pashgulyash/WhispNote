@@ -14,7 +14,8 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, "notes.db", n
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 title TEXT,
                 content TEXT,
-                created_at TEXT DEFAULT (datetime('now'))
+                created_at TEXT DEFAULT CURRENT_TIMESTAMP
+            )
         """.trimIndent())
     }
 
@@ -35,8 +36,8 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, "notes.db", n
     fun getAllNotes(): List<Note> {
         val notes = mutableListOf<Note>()
         val db = readableDatabase
-        val cursor = db.rawQuery("SELECT * FROM notes ORDER BY created_at DESC", null)
-        
+        val cursor = db.rawQuery("SELECT id, title, content, created_at FROM notes ORDER BY created_at DESC", null)
+
         cursor.use {
             while (it.moveToNext()) {
                 notes.add(Note(
