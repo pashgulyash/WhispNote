@@ -15,7 +15,8 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, "notes.db", n
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 title TEXT,
                 content TEXT,
-                created_at TEXT DEFAULT (datetime('now'))
+                created_at TEXT DEFAULT CURRENT_TIMESTAMP
+            )
         """.trimIndent())
     }
 
@@ -31,25 +32,27 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, "notes.db", n
             put("content", content)
         }
         val id = db.insert("notes", null, values)
-        Log.d("DB_DEBUG", "Добавлена заметка ID: $id")
+        Log.d("DB_DEBUG", "Added note with ID: $id")
         return id
     }
 
     fun getAllNotes(): List<Note> {
         val notes = mutableListOf<Note>()
-        val cursor = readableDatabase.rawQuery(
-            "SELECT id, title, content, created_at FROM notes", null)
-        
+        val db = readableDatabase
+        val cursor = db.rawQuery("SELECT id, title, content, created_at FROM notes ORDER BY created_at DESC", null)
+
         cursor.use {
             while (it.moveToNext()) {
-                notes.add(Note(
-                    id = it.getLong(0),
-                    title = it.getString(1),
-                    content = it.getString(2),
-                    createdAt = it.getString(3)
+                notes.add(
+                    Note(
+                        id = it.getLong(0),
+                        title = it.getString(1),
+                        content = it.getString(2),
+                        createdAt = it.getString(3)
+                    )
                 )
             }
         }
         return notes
     }
-                          }
+}
