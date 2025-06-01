@@ -40,14 +40,15 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, "notes.db", n
 
         cursor.use {
             while (it.moveToNext()) {
-                notes.add(Note(
+                val note = Note(
                     id = it.getLong(0),
                     title = it.getString(1),
                     content = it.getString(2),
                     createdAt = it.getString(3)
                 )
+                notes.add(note)
             }
         }
         return notes
     }
-                          }
+}
