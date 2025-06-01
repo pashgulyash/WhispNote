@@ -15,14 +15,15 @@ class NoteEditorActivity : AppCompatActivity() {
         setContentView(binding.root)
         
         dbHelper = DatabaseHelper(this)
-        
+
         binding.btnSave.setOnClickListener {
             val title = binding.etTitle.text.toString()
             val content = binding.etContent.text.toString()
             
             if (title.isNotEmpty()) {
                 dbHelper.addNote(title, content)
-                finish() // Закрываем экран после сохранения
+                setResult(RESULT_OK)
+                finish()
             } else {
                 binding.etTitle.error = "Введите заголовок"
             }
