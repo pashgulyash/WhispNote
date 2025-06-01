@@ -4,6 +4,7 @@ import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
+import android.util.Log
 import com.pashgulyash.whispnote.model.Note
 
 class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, "notes.db", null, 1) {
@@ -14,8 +15,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, "notes.db", n
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 title TEXT,
                 content TEXT,
-                created_at TEXT DEFAULT CURRENT_TIMESTAMP
-            )
+                created_at TEXT DEFAULT (datetime('now'))
         """.trimIndent())
     }
 
@@ -30,25 +30,26 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, "notes.db", n
             put("title", title)
             put("content", content)
         }
-        return db.insert("notes", null, values)
+        val id = db.insert("notes", null, values)
+        Log.d("DB_DEBUG", "Добавлена заметка ID: $id")
+        return id
     }
 
     fun getAllNotes(): List<Note> {
         val notes = mutableListOf<Note>()
-        val db = readableDatabase
-        val cursor = db.rawQuery("SELECT id, title, content, created_at FROM notes ORDER BY created_at DESC", null)
-
+        val cursor = readableDatabase.rawQuery(
+            "SELECT id, title, content, created_at FROM notes", null)
+        
         cursor.use {
             while (it.moveToNext()) {
-                val note = Note(
+                notes.add(Note(
                     id = it.getLong(0),
                     title = it.getString(1),
                     content = it.getString(2),
                     createdAt = it.getString(3)
                 )
-                notes.add(note)
             }
         }
         return notes
     }
-}
+                          }
