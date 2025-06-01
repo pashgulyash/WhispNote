@@ -10,6 +10,10 @@ import com.pashgulyash.whispnote.db.DatabaseHelper
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var dbHelper: DatabaseHelper
+    
+    companion object {
+        private const val REQUEST_ADD_NOTE = 1
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -19,22 +23,25 @@ class MainActivity : AppCompatActivity() {
         dbHelper = DatabaseHelper(this)
 
         binding.btnAddNote.setOnClickListener {
-            startActivity(Intent(this, NoteEditorActivity::class.java))
+            startActivityForResult(
+                Intent(this, NoteEditorActivity::class.java),
+                REQUEST_ADD_NOTE
+            )
         }
+        updateNoteList()
     }
 
-    override fun onResume() {
-        super.onResume()
-        updateNoteList()
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == REQUEST_ADD_NOTE && resultCode == RESULT_OK) {
+            updateNoteList()
+        }
     }
 
     private fun updateNoteList() {
         val notes = dbHelper.getAllNotes()
-        if (notes.isNotEmpty()) {
-            binding.emptyState.visibility = View.GONE
-            // Здесь будет RecyclerView
-        } else {
-            binding.emptyState.visibility = View.VISIBLE
-        }
+        binding.emptyState.visibility = 
+            if (notes.isEmpty()) View.VISIBLE else View.GONE
+        // Позже добавим RecyclerView
     }
 }
