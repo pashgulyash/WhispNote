@@ -32,16 +32,15 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == REQUEST_ADD_NOTE && resultCode == RESULT_OK) {
-            updateNoteList()
-        }
+    super.onActivityResult(requestCode, resultCode, data)
+    if (requestCode == REQUEST_ADD_NOTE && resultCode == RESULT_OK) {
+        updateNoteList()
+        Toast.makeText(this, "Заметка сохранена", Toast.LENGTH_SHORT).show()
     }
+}
 
-    private fun updateNoteList() {
-        val notes = dbHelper.getAllNotes()
-        binding.emptyState.visibility = 
-            if (notes.isEmpty()) View.VISIBLE else View.GONE
-        // Позже добавим RecyclerView
-    }
+private fun updateNoteList() {
+    val notes = dbHelper.getAllNotes()
+    binding.emptyState.visibility = if (notes.isEmpty()) View.VISIBLE else View.GONE
+    Log.d("NOTES_DEBUG", "Заметок в базе: ${notes.size}")
 }
