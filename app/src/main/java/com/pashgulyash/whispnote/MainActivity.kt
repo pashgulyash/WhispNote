@@ -45,9 +45,8 @@ class MainActivity : AppCompatActivity() {
         val notes = dbHelper.getAllNotes()
         binding.emptyState.visibility = if (notes.isEmpty()) View.VISIBLE else View.GONE
         
-        // Временное решение для отладки
         if (notes.isNotEmpty()) {
-            binding.emptyState.text = "Найдено заметок: ${notes.size}"
+    binding.emptyState.text = "Найдено заметок: ${notes.size}"
             notes.forEach { note ->
                 Log.d("NOTE_DEBUG", "Note: ${note.title} - ${note.content}")
             }
