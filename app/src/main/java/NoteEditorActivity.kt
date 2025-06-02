@@ -1,8 +1,7 @@
-package com.pashgulyash.whispnote
-
-import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
-import com.pashgulyash.whispnote.databinding.ActivityNoteEditorBinding
+йper.addNote(title, content)
+            setResult(RESULT_OK)
+            finish() // Явное закрытие активности
+        }ashgulyash.whispnote.databinding.ActivityNoteEditorBinding
 import com.pashgulyash.whispnote.db.DatabaseHelper
 
 class NoteEditorActivity : AppCompatActivity() {
@@ -25,7 +24,9 @@ class NoteEditorActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            dbHelper.addNote(title, content)
+            val id = dbHelper.addNote(title, content)
+    Log.d("SAVE_DEBUG", "Сохранено с ID: $id")
+    
             setResult(RESULT_OK)
             finish() // Явное закрытие активности
         }
