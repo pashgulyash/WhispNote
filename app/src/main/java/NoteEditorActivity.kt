@@ -17,16 +17,17 @@ class NoteEditorActivity : AppCompatActivity() {
         dbHelper = DatabaseHelper(this)
 
         binding.btnSave.setOnClickListener {
-            val title = binding.etTitle.text.toString()
-            val content = binding.etContent.text.toString()
+            val title = binding.etTitle.text.toString().trim()
+            val content = binding.etContent.text.toString().trim()
             
-            if (title.isNotEmpty()) {
-                dbHelper.addNote(title, content)
-                setResult(RESULT_OK)
-                finish()
-            } else {
+            if (title.isEmpty()) {
                 binding.etTitle.error = "Введите заголовок"
+                return@setOnClickListener
             }
+
+            dbHelper.addNote(title, content)
+            setResult(RESULT_OK)
+            finish() // Явное закрытие активности
         }
     }
 }
