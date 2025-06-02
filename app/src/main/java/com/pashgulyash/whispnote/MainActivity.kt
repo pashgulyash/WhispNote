@@ -47,8 +47,17 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun updateNoteList() {
-        val notes = dbHelper.getAllNotes()
-        binding.emptyState.visibility = if (notes.isEmpty()) View.VISIBLE else View.GONE
-        Log.d("NOTES_DEBUG", "Заметок в базе: ${notes.size}")
+    val notes = dbHelper.getAllNotes()
+    Log.d("NOTES_DEBUG", "Получено заметок: ${notes.size}")
+    
+    notes.forEach { note ->
+        Log.d("NOTE_DETAIL", "ID: ${note.id}, Title: ${note.title}")
     }
-}
+    
+    binding.emptyState.visibility = if (notes.isEmpty()) View.VISIBLE else View.GONE
+    
+    // Временное решение для отображения
+    if (notes.isNotEmpty()) {
+        binding.emptyState.text = "Найдено заметок: ${notes.size}\n${notes.joinToString("\n") { it.title }}"
+    }
+    }
