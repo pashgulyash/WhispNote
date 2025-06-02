@@ -41,19 +41,16 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-        updateNoteList()
-    }
-
     private fun updateNoteList() {
         val notes = dbHelper.getAllNotes()
         binding.emptyState.visibility = if (notes.isEmpty()) View.VISIBLE else View.GONE
         
-        // Временное отображение заметок в emptyState
+        // Временное решение для отладки
         if (notes.isNotEmpty()) {
-            binding.emptyState.text = "Найдено заметок: ${notes.size}\n" +
-                notes.joinToString("\n") { it.title }
+            binding.emptyState.text = "Найдено заметок: ${notes.size}"
+            notes.forEach { note ->
+                Log.d("NOTE_DEBUG", "Note: ${note.title} - ${note.content}")
+            }
         }
     }
 }
