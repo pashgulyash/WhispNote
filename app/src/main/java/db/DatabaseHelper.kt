@@ -41,6 +41,8 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, "notes.db", n
         val db = readableDatabase
         val cursor = db.rawQuery("SELECT id, title, content, created_at FROM notes ORDER BY created_at DESC", null)
 
+        Log.d("DB_DEBUG", "Всего строк в базе: ${cursor.count}")
+        
         cursor.use {
             while (it.moveToNext()) {
                 notes.add(
